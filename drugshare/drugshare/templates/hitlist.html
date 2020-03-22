@@ -13,14 +13,18 @@
     />
   </head>
   <body>
-    Testing Smiles-Drawer within a Python Django website
+    Testing Smiles-Drawer within a Python Django website context
     <p>
     Probst, Daniel, and Jean-Louis Reymond. "Smilesdrawer: parsing and drawing SMILES-encoded molecular structures using client-side javascript." Journal of chemical information and modeling 58.1 (2018): 1-7.
     <p>
     Please paste a Smiles into the box below and select "Enter"
     <input id="example-input" name="example-input" />
     <canvas id="example-canvas" width="1200" height="500"></canvas>
- 
+    <p>
+    Testing parsing of smiles
+    <p>
+    <canvas data-smiles="C1CCCCC1"></canvas>
+    <canvas id="example-canvas2" width="1200" height="500"></canvas> 
     <script src="https://unpkg.com/smiles-drawer@1.0.10/dist/smiles-drawer.min.js"></script> 
     <script>
       let input = document.getElementById("example-input");
@@ -41,5 +45,9 @@
         });
       });
     </script> 
+     <script>
+     SmilesDrawer.apply();
+    </script>
+
   </body>
 </html>

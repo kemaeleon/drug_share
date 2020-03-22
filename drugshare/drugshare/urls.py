@@ -16,11 +16,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from django.conf.urls import url
-from  hitlist import views
+import hitlist
+from hitlist import views
+from hitlist.views import CompoundTableView
 
 urlpatterns = [
     path('admin', admin.site.urls),
     url(r'^home$', views.home, name='home'),
     url(r'^compoundlist$', views.hit, name='hitlist'),
-
+    url(r'^compound_view', views.CompoundTableView.as_view(), name='compound_view'),
 ]
+
+
+
+

@@ -1,0 +1,61 @@
+<!doctype html>
+{% load static %}
+{% load django_tables2 %}
+{% load bootstrap3 %}
+{% load render_table from django_tables2 %}
+<html>
+<head>
+{% bootstrap_css %}  	
+<link href="{% static 'django_tables2/bootstrap.css' %}" rel="stylesheet" />
+</head>
+<body>
+<script src="https://unpkg.com/smiles-drawer@1.0.10/dist/smiles-drawer.min.js"></script>	
+ <script>
+     SmilesDrawer.apply();
+    </script>
+
+<div class="container">
+    {% block body %}
+
+
+    <div class="row" id="divider">
+        <header class="masthead text-white text-center">
+        </header>
+    </div>
+
+
+    <div class="row">
+        <div class="col-sm-12" id="table">
+            <h2> Filter Measurements and Plot Data</h2>
+            <div class="pull-right">
+  {% if view.export_formats %}
+                {% for format in view.export_formats %}
+                <a href="{% export_url format %}" class="btn btn-xs btn-default">
+                    download <code>.{{ format }}</code>
+                </a>
+                {% endfor %}
+                {% endif %}
+            </div>
+            {% if filter %}
+            <form action="" method="get" class="form form-inline">
+                {% bootstrap_form filter.form layout='inline' %}
+                <div id="filtersubmit">
+                    {% bootstrap_button 'filter' %}
+                </div>
+            </form>
+            {% endif %}
+
+                {% render_table table %}
+		<script src="https://unpkg.com/smiles-drawer@1.0.10/dist/smiles-drawer.min.js"></script>
+ <script>
+     SmilesDrawer.apply();
+    </script>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+</body>
+                                                                                                 43,1          95%
+ 
+
