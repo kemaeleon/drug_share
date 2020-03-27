@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin', admin.site.urls),
     url(r'^home$', views.home, name='home'),
     url(r'^compoundlist$', views.hit, name='hitlist'),
+    url(r'^prometheus$', views.prometheus, name='prometheus'),
     url(r'^compound_view', views.CompoundTableView.as_view(), name='compound_view'),
 ]
 
