@@ -22,6 +22,7 @@ NGL.DatasourceRegistry.add(
 // Create NGL Stage object
 document.addEventListener("DOMContentLoaded", function () {
 var stage = new NGL.Stage( "viewport" );
+ stage.loadFile("http://134.122.106.222:8000/static/Mpro-x0072_bound.pdb", {defaultRepresentation: true});
 
 // Handle window resizing
 window.addEventListener( "resize", function( event ){
@@ -654,8 +655,8 @@ addElement(createElement("span", {
   innerText: "pi-stacking"
 }, { top: getTopPosition(), left: "32px", color: "grey" }))
 
-loadStructure("http://134.122.106.222:8000/static/Mpro-x0072_bound.pdb").then(function () {
-  showLigand("DMS")
+loadStructure("rcsb://4cup").then(function () {
+  showLigand("ZYB")
 })
 })
 
