@@ -1,4 +1,5 @@
 import folium
+from folium import IFrame
 import folium.plugins as plugins
 import pandas as pd
 import geopandas as gpd
@@ -74,11 +75,13 @@ end_date = date.today()-timedelta(1)
 barplots = barplots.set_index('AREA')
 barplots = barplots.drop(columns=['2020','Area nm'])
 for index, row in barplots.iterrows():
-    print("AHA",index) 
     label = str(index).replace(" ","_")
-    barplots.T[index].plot()
+    tmp = barplots.T[index]
+    tmp.plot(figsize=(3.0,3.0))
+    plt.xticks(rotation='45')
+    plt.tight_layout()
     plt.savefig(os.path.join(os.getcwd(),'static',label + '.png'))
-#print(barplots)
+    plt.close()
 
 
 th = 0
@@ -121,11 +124,15 @@ for single_date in daterange(start_date, end_date):
         ratio[date] = sds[date]/sds[back_day].replace(np.inf, 5)
         ratio[date] = ratio[date].fillna(1)
         for index, row in rsds.iterrows():
-            l1 = "Local Authority: " + str(row['AREA']) + "\n" 
-            l2 = "Population: " + str(row['2020']) + "\n" 
-            l3 = "Cases: " + str(sds[date][index]) + "\n" 
-            l4 = "Change from last week: " + str(row[date])
-            popup_str = l1 + l2 + l3+ l4
+            l1 = "LA: " + str(row['AREA']) + "<br>" 
+            l2 = "Pop: " + str(row['2020']) + "<br>" 
+            l3 = "New weekly cases: " + str(sds[date][index]) + "<br>" 
+            l4 = "Change prev week: " + str(row[date]) + "<br>"
+            png = "static/Cambridge.png"
+            LA = str(row['AREA']).replace(" ","_")
+            im = '<img src="http://134.122.106.222:8000/static/' + LA + '.png">'
+            popup_str = "<p style=font-family:'sans-serif' font-weight:300>" + l1 + l2 + l3+ l4 + str(im) + "</p>"
+            iframe = IFrame(html=popup_str, width=600, height=400)
             normpt = float(delta_sdsnorm[date][index])
             ratio_pt = float(ratio[date][index])
             bubblestring='lightgrey'
@@ -139,7 +146,7 @@ for single_date in daterange(start_date, end_date):
             pt = lookup_cog[row['AREA']]    
             folium.Circle(
             location = [pt.coords[0][1], pt.coords[0][0]],
-            popup=popup_str,
+            popup=folium.Popup(iframe, max_width=350),
             radius=ratio_pt*600,
             fill_opacity=0.3,
             fill_color=bubblestring,

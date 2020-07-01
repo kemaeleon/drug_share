@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'hitlist',
     'django_tables2',
     'bootstrap3',
+    'bootstrap_datepicker_plus',
 ]
 
 MIDDLEWARE = [
@@ -125,4 +126,9 @@ STATIC_ROOT = '/root/django-apps/drug_share/drugshare/static'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "drugshare/templates/js"),
+    os.path.join(BASE_DIR, "drugshare/templates/static"),
 ]
+
+BOOTSTRAP4 = {
+    'include_jquery': True,
+    }
