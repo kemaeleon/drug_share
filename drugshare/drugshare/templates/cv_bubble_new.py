@@ -107,7 +107,6 @@ for single_date in daterange(start_date, end_date):
         geo_data=state_geo,
         name='choropleth',
         data=sdsnorm,
-        fill_color='YlOrRd',
         legend_name = lname,
         columns=['Area nm', show],
         key_on='feature.properties.lad19nm',
@@ -143,11 +142,12 @@ for single_date in daterange(start_date, end_date):
                 bubblestring = 'red'
             elif ratio_pt < 1.0:
                 bubblestring = 'green'
+                ratio_pt = 1.0
             pt = lookup_cog[row['AREA']]    
             folium.Circle(
             location = [pt.coords[0][1], pt.coords[0][0]],
             popup=folium.Popup(iframe, max_width=350),
-            radius=ratio_pt*600,
+            radius=ratio_pt*200,
             fill_opacity=0.3,
             fill_color=bubblestring,
             color=bubblestring,
@@ -169,12 +169,16 @@ for single_date in daterange(start_date, end_date):
                 ).add_to(m)
                 '''
     title_html = '''
-    <h3 align="center" style="font-size:20px"><b>Density of weekly tier 1 Covid-19 Cases in England LAs</b></h3>
+    <h3 align="center" style="font-size:20px"><b>Density of weekly tier 1 and tier 2 Covid-19 Cases in England LAs</b></h3>
+    <h3 This is a prototype, code and content under MIT licence</b></h3>
+    <h6 align="center" style="font-size:20px"> code at: https://github.com/kemaeleon/drug_share/blob/master/drugshare/drugshare/templates/cv_bubble_new.py, MIT Licence</h6>
     <h3 align="center" style="font-size:20px"><b>Maps Released Under MIT Licence</b></h3>
-    <h6 align="center" style="font-size:12px"><b>Please modifiy the date in the URL for data from a different date</b></h6>    <h6 align="center" style="font-size:12px"><b>bubble size reflects ratio of weekly infections, current/previous week</b></h6> 
-    <h6 align="center" style="font-size:12px"><b>red: increase, green: decrease, grey: no change, blue: new from zero</b></h6> 
+    <h6 align="center" style="font-size:12px"><b>Please modifiy the date in the URL for data from a different date</b></h6>    <h6 align="center" style="font-size:12px"><b>red bubble size reflects growing of weekly infections, current/previous week</b></h6> 
+    <h6 align="center" style="font-size:12px"><b>red: increase, green: decrease, grey: no change, blue bubble: new from zero</b></h6> 
 
              '''
+    style = '<style>.leaflet-popup-pane{margin-top: 100px;}</style>'
+    m.get_root().header.add_child(folium.Element(style))         
     m.get_root().html.add_child(folium.Element(title_html))
     
     m.save(show + '.html')
