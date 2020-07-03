@@ -33,14 +33,14 @@ pop['2020']= pop['2020'].str.replace(",","").astype(float)
 m = folium.Map(location=(51.5,0))
 
 ''' Load simplified geometry file '''
-state_geo = r"test.json"
+state_geo = r"map.json"
 
 '''Calculate lookup for centroids of Lower Tier Local Authories  '''
 from shapely.geometry import shape
 import json
 
 lookup_cog = {}
-with open('test.json') as json_file:
+with open('map.json') as json_file:
     collection = json.load(json_file)
     features = collection["features"]
     for feature in features:
@@ -53,7 +53,7 @@ with open('test.json') as json_file:
 url="https://coronavirus.data.gov.uk/downloads/csv/coronavirus-cases_latest.csv"
 s=requests.get(url).content
 virus = pd.read_csv(io.StringIO(s.decode('utf-8'))).drop_duplicates(subset=None, keep='first', inplace=False)
-
+virus = virus.replace(to_replace="Hackney and City of London", value="Hackney")
 ''' Select lower tier LA data '''
 virus = virus.loc[virus['Area type'] == 'Lower tier local authority']
 virus = virus.replace(to_replace = "Cornwall and Isles of Scilly", value="Cornwall")
@@ -79,6 +79,7 @@ for index, row in barplots.iterrows():
     tmp = barplots.T[index]
     tmp.plot(figsize=(3.0,3.0))
     plt.xticks(rotation='45')
+    plt.ylabel("Daily cases")
     plt.tight_layout()
     plt.savefig(os.path.join(os.getcwd(),'static',label + '.png'))
     plt.close()
@@ -123,11 +124,13 @@ for single_date in daterange(start_date, end_date):
         ratio[date] = sds[date]/sds[back_day].replace(np.inf, 5)
         ratio[date] = ratio[date].fillna(1)
         for index, row in rsds.iterrows():
-            l1 = "LA: " + str(row['AREA']) + "<br>" 
+            ly=str(row['AREA'])
+            if ly == 'Hackney':
+                ly = "Hackney and City of London"   
+            l1 = "LA: " + ly + "<br>" 
             l2 = "Pop: " + str(row['2020']) + "<br>" 
-            l3 = "New weekly cases: " + str(sds[date][index]) + "<br>" 
+            l3 = "Week to " +  str(date) + ", new cases: "  + str(sds[date][index]) + "<br>" 
             l4 = "Change prev week: " + str(row[date]) + "<br>"
-            png = "static/Cambridge.png"
             LA = str(row['AREA']).replace(" ","_")
             im = '<img src="http://134.122.106.222:8000/static/' + LA + '.png">'
             popup_str = "<p style=font-family:'sans-serif' font-weight:300>" + l1 + l2 + l3+ l4 + str(im) + "</p>"
