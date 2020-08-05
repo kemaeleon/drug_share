@@ -55,7 +55,7 @@ s=requests.get(url).content
 virus = pd.read_csv(io.StringIO(s.decode('utf-8'))).drop_duplicates(subset=None, keep='first', inplace=False)
 virus = virus.replace(to_replace="Hackney and City of London", value="Hackney")
 ''' Select lower tier LA data '''
-virus = virus.loc[virus['Area type'] == 'Lower tier local authority']
+virus = virus.loc[virus['Area type'] == 'ltla']
 virus = virus.replace(to_replace = "Cornwall and Isles of Scilly", value="Cornwall")
 virus = virus[['Area name', 'Specimen date', 'Daily lab-confirmed cases']]
 virus_index = pd.pivot_table(virus, index='Area name', columns= ['Specimen date'], values = "Daily lab-confirmed cases").fillna(0).rename_axis(None, axis=1)
@@ -66,7 +66,7 @@ covid_uk = virus_index.merge(pop, how='inner', left_on='Area nm', right_on='AREA
 covid_uk = covid_uk.fillna(0)
 
 
-start_date = date(2020, 3, 1)
+start_date = date(2020, 6, 1)
 end_date = date.today()-timedelta(1)
 
 ''' Calculate sum of weekly cases and differences of sums of weekly cases, sds, sdsnorm '''
