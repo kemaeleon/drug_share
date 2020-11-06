@@ -1,0 +1,183 @@
+<!doctype html>
+{% load static %}
+{% load django_tables2 %}
+{% load bootstrap3 %}
+{% load render_table from django_tables2 %}
+<html>
+<head>
+{% bootstrap_css %}  	
+<link href="{% static 'django_tables2/bootstrap.css' %}" rel="stylesheet" />
+</head>
+<style>
+  h1{
+  color: slategray;
+  padding-top: 10px;
+  font-size: 20px;
+  }
+  h2 {
+  color: #224;
+  font-size: 18px;
+  padding: 20px 0px;
+   }
+  .table-striped {
+  background: #FFF !important;
+  }
+.table-hover> tbody> tr:hover{
+    background-color:lavender;
+}
+th {
+padding: 5px !important;
+
+}
+th > input[type="checkbox"]{
+        display: None !important;
+}
+.form-inline .form-control {
+                        width: 400px !important;
+}
+input[type="checkbox"]{
+transform: scale(1.3);
+}
+.text-primary {
+    color:
+    #007bff !important;
+}
+.bg-light {
+    background-color:
+    #f8f9fa !important;
+}
+.navbar .btn-primary {
+    color:
+#fff;
+background-color:
+#007bff;
+border-color:
+    #007bff;
+}
+.masthead h1 {
+color: white !important;
+}
+.test {
+width:100 !important;
+}
+header.masthead {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+</style>    
+</head>
+
+<style>
+  h1{
+	    color: slategray;
+		      padding-top: 10px;
+			        font-size: 20px;
+					  }
+    h2 {
+	      color: #224;
+		        font-size: 18px;
+				  padding: 20px 0px;
+					     }
+      .table-striped {
+	        background: #FFF !important;
+			  }
+      .table-hover> tbody> tr:hover{
+	          background-color:lavender;
+      }
+      th > input[type="checkbox"]{
+	              display: None !important;
+      }
+      .form-inline .form-control {
+	                              width: 400px !important;
+      }
+      input[type="checkbox"]{
+	      transform: scale(1.3);
+      }
+      .text-primary {
+	          color:
+			      #007bff !important;
+      }
+      .bg-light {
+	          background-color:
+			      #f8f9fa !important;
+      }
+      .navbar .btn-primary {
+	          color:
+			  #fff;
+			  background-color:
+				  #007bff;
+				  border-color:
+					      #007bff;
+      }
+      .masthead h1 {
+	      color: white !important;
+      }
+      header.masthead {
+	          padding-top: 1rem;
+			      padding-bottom: 1rem;
+      }
+
+</style>    
+</head>
+
+<body>
+<script src="https://unpkg.com/smiles-drawer@1.0.10/dist/smiles-drawer.min.js"></script>	
+ <script>
+     SmilesDrawer.apply();
+    </script>
+
+<div class="container">
+    {% block body %}
+
+
+    <div class="row" id="divider">
+        <header class="masthead text-white text-center">
+        </header>
+    </div>
+
+
+    <div class="row">
+        <div class="col-sm-12" id="table">
+            <h2> Covid-19 binding fragments crystallized at Diamond</h2>
+	    <p>
+	    data from:
+	    https://www.diamond.ac.uk/covid-19/for-scientists/Main-protease-structure-and-XChem/Downloads.html
+	    <p>
+	    https://github.com/kemaeleon/drug_share.git
+	    <p>
+            <div class="pull-right">
+  {% if view.export_formats %}
+                {% for format in view.export_formats %}
+                <a href="{% export_url format %}" class="btn btn-xs btn-default">
+                    download <code>.{{ format }}</code>
+                </a>
+                {% endfor %}
+                {% endif %}
+            </div>
+            {% if filter %}
+            <form action="" method="get" class="form form-inline">
+                {% bootstrap_form filter.form layout='inline' %}
+                <div id="filtersubmit">
+                    {% bootstrap_button 'filter' %}
+                </div>
+            </form>
+            {% endif %}
+
+                {% render_table table %}
+		<script src="https://unpkg.com/smiles-drawer@1.0.10/dist/smiles-drawer.min.js"></script>
+
+<script>
+	SmilesDrawer.apply( { width: 250, height: 150, } );
+    </script>
+
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+</body>
+                                                                                                 43,1          95%
+ 
+

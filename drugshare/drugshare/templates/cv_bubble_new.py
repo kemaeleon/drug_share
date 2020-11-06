@@ -66,8 +66,8 @@ covid_uk = virus_index.merge(pop, how='inner', left_on='Area nm', right_on='AREA
 covid_uk = covid_uk.fillna(0)
 
 
-start_date = date(2020, 6, 1)
-end_date = date.today()-timedelta(1)
+start_date = date(2020, 3,12)
+end_date = date.today()-timedelta(3)
 
 ''' Calculate sum of weekly cases and differences of sums of weekly cases, sds, sdsnorm '''
 (sds, sdsnorm, rsds, delta_sdsnorm,ratio,barplots) = (covid_uk.copy(deep=True) for i in range(6))
@@ -140,11 +140,11 @@ for single_date in daterange(start_date, end_date):
             bubblestring='lightgrey'
             if ratio_pt == np.inf:
                 ratio_pt = 1
-                bubblestring = 'blue'
+                bubblestring = 'turquoise'
             if ratio_pt > 1.0:
-                bubblestring = 'red'
+                bubblestring = 'orange'
             elif ratio_pt < 1.0:
-                bubblestring = 'green'
+                bubblestring = 'lime'
                 ratio_pt = 1.0
             pt = lookup_cog[row['AREA']]    
             folium.Circle(
@@ -177,7 +177,7 @@ for single_date in daterange(start_date, end_date):
     <h6 align="center" style="font-size:20px"> code at: https://github.com/kemaeleon/drug_share/blob/master/drugshare/drugshare/templates/cv_bubble_new.py, MIT Licence</h6>
     <h3 align="center" style="font-size:20px"><b>Maps Released Under MIT Licence</b></h3>
     <h6 align="center" style="font-size:12px"><b>Please modifiy the date in the URL for data from a different date</b></h6>    <h6 align="center" style="font-size:12px"><b>red bubble size reflects growing of weekly infections, current/previous week</b></h6> 
-    <h6 align="center" style="font-size:12px"><b>red: increase, green: decrease, grey: no change, blue bubble: new from zero</b></h6> 
+    <h6 align="center" style="font-size:12px"><b>orange: increase, lime: decrease, grey: no change, turquoise bubble: new from zero</b></h6> 
 
              '''
     style = '<style>.leaflet-popup-pane{margin-top: 100px;}</style>'

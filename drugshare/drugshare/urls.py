@@ -18,13 +18,16 @@ from django.urls import include, path
 from django.conf.urls import url
 import hitlist
 from hitlist import views
+from warnapp import views as appviews
 from hitlist.views import CompoundTableView
 
 urlpatterns = [
     path('admin', admin.site.urls),
     url(r'^home$', views.home, name='home'),
     url(r'^compoundlist$', views.hit, name='hitlist'),
-    url(r'^prometheus$', views.prometheus, name='prometheus'),
+    url(r'^threeD$', views.prometheus, name='example'),
+    url(r'^example$', views.example, name='gb'),
+    url(r'^2020.*html$', views.maps, name='maps'),
     url(r'^compound_view', views.CompoundTableView.as_view(), name='compound_view'),
 ]
 

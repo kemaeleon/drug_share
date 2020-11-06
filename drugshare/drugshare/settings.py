@@ -24,7 +24,7 @@ SECRET_KEY = '3oexgg$a#d%h^ysxw@82su)gw(#sx-)1(cd42*4h^3=m!jut9('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['134.122.106.222']
+ALLOWED_HOSTS = ['134.122.106.222','data.kemaeleon.com']
 
 
 # Application definition

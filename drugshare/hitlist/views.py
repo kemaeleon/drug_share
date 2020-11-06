@@ -17,6 +17,9 @@ def home(request):
 def prometheus(request):
     return render(request, 'prometheus.html')
 
+def example(request):
+    return render(request, 'example.html')
+
 class CompoundTableView(ExportMixin, SingleTableMixin,FilterView):
     model = Compound
     table_class = CompoundTable
@@ -25,3 +28,6 @@ class CompoundTableView(ExportMixin, SingleTableMixin,FilterView):
     export_formats = ()
 
 
+def maps(request):
+    test = request.path.strip("/")
+    return render(request, test)

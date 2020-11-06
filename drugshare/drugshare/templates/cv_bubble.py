@@ -90,7 +90,7 @@ for single_date in daterange(start_date, end_date):
         sds[date] += covid_uk[back_day]
     sdsnorm[date]=np.sqrt(sds[date]/(sds['2020']/100000))    
     th = max(th, sdsnorm[date].max())
-bins = [0,0.00001,1,2,3,4,7,th]
+bins = [0,0.00001,1,2,3,4,7,10,th]
 
 
 for single_date in daterange(start_date, end_date):
