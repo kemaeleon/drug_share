@@ -94,7 +94,7 @@ for single_date in daterange(start_date, end_date):
         sds[date] += covid_uk[back_day]
     sdsnorm[date]=np.sqrt(sds[date]/(sds['2020']/100000))    
     th = max(th, sdsnorm[date].max())
-bins = [0,0.00001,1,2,3,4,7,th]
+bins = [0,0.00001,1,4,7,14,20,th]
 
 
 for single_date in daterange(start_date, end_date):
@@ -132,7 +132,7 @@ for single_date in daterange(start_date, end_date):
             l3 = "Week to " +  str(date) + ", new cases: "  + str(sds[date][index]) + "<br>" 
             l4 = "Change prev week: " + str(row[date]) + "<br>"
             LA = str(row['AREA']).replace(" ","_")
-            im = '<img src="http://134.122.106.222:8000/static/' + LA + '.png">'
+            im = '<img src="https://data.kemaeleon.com/static/' + LA + '.png">'
             popup_str = "<p style=font-family:'sans-serif' font-weight:300>" + l1 + l2 + l3+ l4 + str(im) + "</p>"
             iframe = IFrame(html=popup_str, width=600, height=400)
             normpt = float(delta_sdsnorm[date][index])
@@ -140,11 +140,11 @@ for single_date in daterange(start_date, end_date):
             bubblestring='lightgrey'
             if ratio_pt == np.inf:
                 ratio_pt = 1
-                bubblestring = 'turquoise'
+                bubblestring = 'blue'
             if ratio_pt > 1.0:
-                bubblestring = 'orange'
+                bubblestring = 'red'
             elif ratio_pt < 1.0:
-                bubblestring = 'lime'
+                bubblestring = 'green'
                 ratio_pt = 1.0
             pt = lookup_cog[row['AREA']]    
             folium.Circle(
@@ -173,15 +173,63 @@ for single_date in daterange(start_date, end_date):
                 '''
     title_html = '''
     <h3 align="center" style="font-size:20px"><b>Density of weekly tier 1 and tier 2 Covid-19 Cases in England LAs</b></h3>
-    <h3 This is a prototype, code and content under MIT licence</b></h3>
     <h6 align="center" style="font-size:20px"> code at: https://github.com/kemaeleon/drug_share/blob/master/drugshare/drugshare/templates/cv_bubble_new.py, MIT Licence</h6>
-    <h3 align="center" style="font-size:20px"><b>Maps Released Under MIT Licence</b></h3>
-    <h6 align="center" style="font-size:12px"><b>Please modifiy the date in the URL for data from a different date</b></h6>    <h6 align="center" style="font-size:12px"><b>red bubble size reflects growing of weekly infections, current/previous week</b></h6> 
-    <h6 align="center" style="font-size:12px"><b>orange: increase, lime: decrease, grey: no change, turquoise bubble: new from zero</b></h6> 
-
              '''
-    style = '<style>.leaflet-popup-pane{margin-top: 100px;}</style>'
+    top_of_page = '''
+    <body>
+    <div class="container">
+ <div class="row">
+                <div class="col-sm-4"></div>
+                <div id="logo" class="col-sm-4">
+                <img src="/static/kemaeleon.png"" alt="Kemaeleon">
+                </div>
+                <div class="col-sm-4"></div>
+        </div>
+        </div>
+          <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+<script type="text/javascript">
+     $(function(){
+
+    $('.thedate').datepicker({
+        dateFormat: 'yy-mm-dd',//2017-01-29
+    });
+
+});
+
+    function goToPage() {
+        var page = document.getElementById('id-end').value;
+        window.location = "/" +  page + ".html";
+    }
+</script>
+Select 7-day sum of cases up to the folllowing date:
+<input type="text" id="id-end" class="thedate" />
+<input type="submit" value="submit" onclick="goToPage();" />
+<h6 align="left" style="font-size:12px"><b>size of bubbles reflect change in case numbers from previous week</b></h6>
+<h6 align="left" style="font-size:12px"><b>red: increase, green: decrease, grey: no change, blue bubble: new from zero</b></h6>
+
+
+        '''
+    style =""" 
+    <style>
+    .leaflet-popup-pane{margin-top: 100px;}
+    #logo img{margin: 10px;
+          max-height: 90px}
+    #ui-datepicker-div {z-index: 1000 !important;}
+    .leaflet-right .leaflet-control{background: white !important;}
+    </style>
+    """
+    head = """
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> """
+    m.get_root().header.add_child(folium.Element(head)) 
     m.get_root().header.add_child(folium.Element(style))         
-    m.get_root().html.add_child(folium.Element(title_html))
-    
-    m.save(show + '.html')
+    m.get_root().html.add_child(folium.Element(top_of_page))
+    with open(show + '.html', 'w') as file:
+        file.write("{% load static %}")
+    m.save(show + '.html','a')
+    with open(show + '.html', 'a') as file:
+        file.write(title_html)
