@@ -125,8 +125,11 @@ USE_TZ = True
 STATIC_ROOT = '/root/django-apps/drug_share/drugshare/static'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "drugshare/templates/js"),
     os.path.join(BASE_DIR, "drugshare/templates/static"),
+    os.path.join(BASE_DIR, "drugshare/templates/css"),
+    os.path.join(BASE_DIR, "drugshare/templates/js"),
+    os.path.join(BASE_DIR, "drugshare/templates/fonts"),
+    os.path.join(BASE_DIR, "drugshare/templates/images"),
 ]
 
 BOOTSTRAP4 = {

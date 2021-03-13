@@ -1,0 +1,9 @@
+    <style>
+    .leaflet-popup-pane{margin-top: 100px;}
+    #logo img{margin: 10px;
+          max-height: 90px}
+    #ui-datepicker-div {z-index: 1000 !important;}
+    .leaflet-right .leaflet-control{backround: white !important;}
+    .wrapper {min-height: 0px !important}
+    map_1139e4a2f18d45e4bd09d71d867f95fb {max-width: 95% !important;}
+    </style>

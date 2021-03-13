@@ -1,0 +1,32 @@
+    <div class="container">
+ <div class="row">
+                <div class="col-sm-4"></div>
+                <div id="logo" class="col-sm-4">
+                <img src="/static/kemaeleon.png"" alt="Kemaeleon">
+                </div>
+                <div class="col-sm-4"></div>
+        </div>
+        </div>
+          <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+<script type="text/javascript">
+     $(function(){
+
+    $('.thedate').datepicker({
+        dateFormat: 'yy-mm-dd',//2017-01-29
+    });
+
+});
+
+    function goToPage() {
+        var page = document.getElementById('id-end').value;
+        window.location = "/" +  page + ".html";
+    }
+</script>
+Select 7-day sum of cases up to the folllowing date:
+<input type="text" id="id-end" class="thedate" />
+<input type="submit" value="submit" onclick="goToPage();" />
+<h6 align="left" style="font-size:12px"><b>size of bubbles reflect change in case numbers from previous week</b></h6>
+<h6 align="left" style="font-size:12px"><b>red: increase, green: decrease, grey: no change, blue bubble: new from zero</b></h6>

@@ -1,0 +1,56 @@
+HEADER    VIRAL PROTEIN                           2020-03-01  XXXX              
+AUTHOR    L.ZHANG, D.LIN, R.HILGENFELD                                          
+JRNL        AUTH   L.Zhang, D.Lin, R.Hilgenfeld                                 
+JRNL        TITL   Crystal structure of the complex resulting from the reaction 
+JRNL        TITL 2 between the SARS-CoV main protease and tert-butyl            
+JRNL        TITL 3 (1-((S)-3-cyclohexyl-1-(((S)-4-(cyclopropylamino)-3,         
+JRNL        TITL 4 4-dioxo-1-((S)-2-oxopyrrolidin-3-yl)butan-2-yl)amino)        
+JRNL        TITL 5 -1-oxopropan-2-yl)-2-oxo-1,2-dihydropyridin-3-yl)carbamate   
+JRNL        REF    To Be Published                                              
+JRNL        REFN                                                                
+CRYST1  107.905   82.247   53.131  90.00 104.47  90.00 C 1 2 1       4          
+SCALE1      0.009267  0.000000  0.002391        0.00000                         
+SCALE2      0.000000  0.012158  0.000000        0.00000                         
+SCALE3      0.000000  0.000000  0.019438        0.00000                         
+HETATM 2381  O41 OEW A 401     -20.560 -45.485   0.283  0.80 55.86           O  
+HETATM 2382  C35 OEW A 401     -21.453 -45.726   1.022  0.80 58.20           C  
+HETATM 2383  N36 OEW A 401     -22.368 -46.682   0.853  0.80 60.82           N  
+HETATM 2384  C37 OEW A 401     -22.447 -47.502  -0.336  0.80 56.18           C  
+HETATM 2385  C39 OEW A 401     -23.828 -47.677  -0.954  0.80 60.45           C  
+HETATM 2386  C38 OEW A 401     -22.831 -46.730  -1.594  0.80 60.82           C  
+HETATM 2387  C57 OEW A 401     -21.586 -44.848   2.199  0.80 60.42           C  
+HETATM 2388  O40 OEW A 401     -22.759 -45.308   2.908  0.80 57.43           O  
+HETATM 2389  C40 OEW A 401     -21.634 -43.357   1.801  0.80 55.89           C  
+HETATM 2390  C42 OEW A 401     -20.281 -42.694   1.392  0.80 50.64           C  
+HETATM 2391  C45 OEW A 401     -20.353 -41.176   1.356  0.80 46.21           C  
+HETATM 2392  C54 OEW A 401     -21.099 -40.661   0.125  0.80 54.88           C  
+HETATM 2393  C51 OEW A 401     -20.194 -39.674  -0.607  0.80 53.51           C  
+HETATM 2394  N49 OEW A 401     -18.951 -39.769   0.118  0.80 52.30           N  
+HETATM 2395  C47 OEW A 401     -19.047 -40.468   1.235  0.80 47.33           C  
+HETATM 2396  O48 OEW A 401     -18.279 -40.384   2.144  0.80 43.35           O  
+HETATM 2397  N38 OEW A 401     -22.324 -42.716   2.922  0.80 56.08           N  
+HETATM 2398  C36 OEW A 401     -23.425 -41.985   2.689  0.80 65.65           C  
+HETATM 2399  O37 OEW A 401     -23.879 -41.772   1.559  0.80 58.62           O  
+HETATM 2400  C20 OEW A 401     -24.157 -41.444   3.882  0.80 69.42           C  
+HETATM 2401  C22 OEW A 401     -25.102 -42.551   4.266  0.80 71.59           C  
+HETATM 2402  C1  OEW A 401     -25.236 -42.483   5.756  0.80 74.26           C  
+HETATM 2403  C6  OEW A 401     -26.292 -43.485   6.162  0.80 78.67           C  
+HETATM 2404  C5  OEW A 401     -26.328 -43.590   7.676  0.80 76.27           C  
+HETATM 2405  C4  OEW A 401     -25.281 -42.633   8.229  0.80 75.67           C  
+HETATM 2406  C3  OEW A 401     -25.606 -41.208   7.808  0.80 78.83           C  
+HETATM 2407  C2  OEW A 401     -25.686 -41.123   6.298  0.80 78.41           C  
+HETATM 2408  N15 OEW A 401     -24.844 -40.179   3.520  0.80 74.86           N  
+HETATM 2409  C21 OEW A 401     -23.967 -39.101   3.252  0.80 75.07           C  
+HETATM 2410  O22 OEW A 401     -22.736 -39.371   3.385  0.80 54.71           O  
+HETATM 2411  C19 OEW A 401     -24.549 -37.764   2.841  0.80 75.85           C  
+HETATM 2412  C18 OEW A 401     -25.954 -37.700   2.733  0.80 77.76           C  
+HETATM 2413  C17 OEW A 401     -26.748 -38.806   3.029  0.80 72.04           C  
+HETATM 2414  C16 OEW A 401     -26.185 -40.021   3.403  0.80 70.93           C  
+HETATM 2415  N23 OEW A 401     -23.732 -36.714   2.512  0.80 83.49           N  
+HETATM 2416  C24 OEW A 401     -24.158 -35.714   1.725  0.80 87.99           C  
+HETATM 2417  O26 OEW A 401     -25.330 -35.415   1.605  0.80 99.27           O  
+HETATM 2418  O25 OEW A 401     -23.232 -35.087   0.778  0.80 91.76           O  
+HETATM 2419  C27 OEW A 401     -22.724 -33.752   0.607  0.80 89.75           C  
+HETATM 2420  C33 OEW A 401     -23.985 -33.048   1.199  0.80 87.79           C  
+HETATM 2421  C32 OEW A 401     -21.861 -33.181   1.699  0.80 86.37           C  
+HETATM 2422  C31 OEW A 401     -22.900 -33.019  -0.725  0.80 88.67           C  

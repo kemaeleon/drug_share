@@ -27,7 +27,7 @@ urlpatterns = [
     url(r'^compoundlist$', views.hit, name='hitlist'),
     url(r'^threeD$', views.prometheus, name='example'),
     url(r'^example$', views.example, name='gb'),
-    url(r'^2020.*html$', views.maps, name='maps'),
+    url(r'^202*.*html$', views.maps, name='maps'),
     url(r'^compound_view', views.CompoundTableView.as_view(), name='compound_view'),
 ]
 
