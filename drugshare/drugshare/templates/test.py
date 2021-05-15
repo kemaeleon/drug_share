@@ -101,6 +101,9 @@ bins = [0,0.00001,1,4,7,14,20,th]
 
 
 for single_date in daterange(start_date, end_date):
+    growing = 0
+    shrinking = 0
+    same = 0
     date = single_date.strftime("%Y-%m-%d")
     show = str(single_date)
     print(show, sum(covid_uk[date]))
@@ -142,13 +145,20 @@ for single_date in daterange(start_date, end_date):
             ratio_pt = float(ratio[date][index])
             bubblestring='lightgrey'
             if ratio_pt == np.inf:
+                growing += 1
                 ratio_pt = 1
                 bubblestring = 'blue'
-            if ratio_pt > 1.0:
+            elif ratio_pt > 1.0:
+                growing += 1
                 bubblestring = 'red'
             elif ratio_pt < 1.0:
                 bubblestring = 'green'
+                shrinking += 1
                 ratio_pt = 1.0
+            elif ratio_pt == 1:
+                bubblestring = 'white'
+                same += 1
+                
             pt = lookup_cog[row['AREA']]    
             folium.Circle(
             location = [pt.coords[0][1], pt.coords[0][0]],
@@ -183,6 +193,7 @@ for single_date in daterange(start_date, end_date):
     with open(show + '.html', 'a') as file:
         file.write(title_html)
         file.write(footer)
+    print("GROWSHRINK", show, growing, same, shrinking, growing+shrinking+same)    
 current_file = str(end_date-timedelta(2)) + ".html"
 shutil.copy(current_file, "2021-now.html")
 
