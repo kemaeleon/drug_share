@@ -68,7 +68,7 @@ covid_uk = covid_uk.fillna(0)
 
 
 start_date = date(2020, 3,12)
-end_date = date.today()-timedelta(1)
+end_date = date.today()-timedelta(2)
 
 ''' Calculate sum of weekly cases and differences of sums of weekly cases, sds, sdsnorm '''
 (sds, sdsnorm, rsds, delta_sdsnorm,ratio,barplots) = (covid_uk.copy(deep=True) for i in range(6))
@@ -103,7 +103,7 @@ for single_date in daterange(start_date, end_date):
     show = str(single_date)
     print(show, sum(covid_uk[date]))
     m = folium.Map(location=(51.5,0))
-    lname = "week up to: " + show + ", sqrt (weekly confirmed cases / 100k people)"
+    lname = "week up to: " + show + ", sqrt (weekly infect./100k)"
     folium.Choropleth(
         tiles='cartodbpositron',
         geo_data=state_geo,
@@ -181,6 +181,8 @@ for single_date in daterange(start_date, end_date):
     with open(show + '.html', 'a') as file:
         file.write(title_html)
         file.write(footer)
-current_file = str(end_date-timedelta(1)) + ".html"
-os.remove("2021-latest.html")
-shutil.copy(current_file, "2021-latest.html")
+current_file = str(end_date-timedelta(2)) + ".html"
+shutil.copy(current_file, "2021-now.html")
+
+
+

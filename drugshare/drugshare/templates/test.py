@@ -10,6 +10,7 @@ import io
 import os
 import numpy as np
 from datetime import timedelta, date
+
 def daterange(start_date, end_date):
     for n in range(int ((end_date - start_date).days)):
         yield start_date + timedelta(n)
@@ -25,7 +26,7 @@ def ref_back(end_date, days):
 pd.set_option('display.max_columns', 50, 'display.max_rows', 500)
 
 ''' Population Data '''
-pop = pd.read_csv("pop_data.csv")[['AREA', '2020']]
+pop = pd.read_csv("pop_data.csv")[['CODE','AREA', '2020']]
 pop['2020']= pop['2020'].str.replace(",","").astype(float)
 
 
@@ -56,18 +57,14 @@ s=requests.get(url).content
 virus = pd.read_csv(io.StringIO(s.decode('utf-8'))).drop_duplicates(subset=None, keep='first', inplace=False)
 virus = virus.replace(to_replace="Hackney and City of London", value="Hackney")
 ''' Select lower tier LA data '''
-print(virus)
 virus = virus.replace(to_replace = "Cornwall and Isles of Scilly", value="Cornwall")
 virus = virus[['areaName', 'date', 'newCasesBySpecimenDate']]
-print(virus)
 virus_index = pd.pivot_table(virus, index='areaName', columns= ['date'], values = "newCasesBySpecimenDate").fillna(0).rename_axis(None, axis=1)
 virus_index['areaName2'] = virus_index.index
-print(virus_index)
 
 ''' Merge with Population data '''
 covid_uk = virus_index.merge(pop, how='inner', left_on='areaName2', right_on='AREA')
 covid_uk = covid_uk.fillna(0)
-print(covid_uk)
 
 start_date = date(2020, 3,12)
 end_date = date.today()-timedelta(2)
@@ -75,18 +72,19 @@ end_date = date.today()-timedelta(2)
 ''' Calculate sum of weekly cases and differences of sums of weekly cases, sds, sdsnorm '''
 (sds, sdsnorm, rsds, delta_sdsnorm,ratio,barplots) = (covid_uk.copy(deep=True) for i in range(6))
 
+"""
 barplots = barplots.set_index('AREA')
 barplots = barplots.drop(columns=['2020','areaName2'])
 for index, row in barplots.iterrows():
     label = str(index).replace(" ","_")
     tmp = barplots.T[index]
-    tmp.plot(figsize=(3.0,3.0))
+    tmp.plot(logy=True,figsize=(3.0,3.0))
     plt.xticks(rotation='45')
     plt.ylabel("Daily cases")
     plt.tight_layout()
     plt.savefig(os.path.join(os.getcwd(),'static',label + '.png'))
     plt.close()
-
+"""
 
 th = 0
 for single_date in daterange(start_date, end_date):
@@ -100,6 +98,27 @@ for single_date in daterange(start_date, end_date):
 bins = [0,0.00001,1,4,7,14,20,th]
 
 
+barplots2 = sdsnorm.copy(deep = True)
+barplots2 = barplots2.set_index('AREA')
+barplots2 = barplots2.drop(columns=['2020','areaName2','CODE'])
+for single_date in daterange(start_date, end_date):
+    date = single_date.strftime("%Y-%m-%d")
+    barplots2[date] *= barplots2[date]
+
+for index, row in barplots2.iterrows():
+    label = str(index).replace(" ","_")
+    tmp = barplots2.T[index]
+    tmp2 = tmp.to_frame()
+#    print(tmp2)
+    tmp.plot(logy=True,figsize=(3.0,3.0))
+    plt.xticks(rotation='45')
+    plt.ylabel("Weekly rates")
+    plt.tight_layout()
+    plt.savefig(os.path.join(os.getcwd(),'static',label + '.png'))
+    plt.close()
+
+    
+print(barplots2.head())
 for single_date in daterange(start_date, end_date):
     growing = 0
     shrinking = 0
@@ -112,6 +131,7 @@ for single_date in daterange(start_date, end_date):
     folium.Choropleth(
         tiles='cartodbpositron',
         geo_data=state_geo,
+        fill_color = 'BuPu',
         name='choropleth',
         data=sdsnorm,
         legend_name = lname,
@@ -131,15 +151,17 @@ for single_date in daterange(start_date, end_date):
         ratio[date] = ratio[date].fillna(1)
         for index, row in rsds.iterrows():
             ly=str(row['AREA'])
+            lcode = str(row['CODE'])
             if ly == 'Hackney':
                 ly = "Hackney and City of London"   
             l1 = "LA: " + ly + "<br>" 
             l2 = "Pop: " + str(row['2020']) + "<br>" 
+            li = '<a href="https://covid19.sanger.ac.uk/lineages/raw?area=' + lcode + '&lineage=B.1.617.2&lambda_type=area">B.1.617</a>' + " open in new tab" +  "<br>" 
             l3 = "Week to " +  str(date) + ", new cases: "  + str(sds[date][index]) + "<br>" 
             l4 = "Change prev week: " + str(row[date]) + "<br>"
             LA = str(row['AREA']).replace(" ","_")
             im = '<img src="https://data.kemaeleon.com/static/' + LA + '.png">'
-            popup_str = "<p style=font-family:'sans-serif' font-weight:300>" + l1 + l2 + l3+ l4 + str(im) + "</p>"
+            popup_str = "<p style=font-family:'sans-serif' font-weight:300>" + l1 + l2 + li + l3+ l4 + str(im) + "</p>"
             iframe = IFrame(html=popup_str, width=600, height=400)
             normpt = float(delta_sdsnorm[date][index])
             ratio_pt = float(ratio[date][index])
@@ -147,12 +169,12 @@ for single_date in daterange(start_date, end_date):
             if ratio_pt == np.inf:
                 growing += 1
                 ratio_pt = 1
-                bubblestring = 'blue'
+                bubblestring = 'purple'
             elif ratio_pt > 1.0:
                 growing += 1
                 bubblestring = 'red'
             elif ratio_pt < 1.0:
-                bubblestring = 'green'
+                bubblestring = 'blue'
                 shrinking += 1
                 ratio_pt = 1.0
             elif ratio_pt == 1:

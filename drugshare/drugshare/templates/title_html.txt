@@ -1,2 +1,2 @@
     <h3 align="center" style="font-size:20px"><b>Density of weekly tier 1 and tier 2 Covid-19 Cases in England LAs</b></h3>
-    <h6 align="center" style="font-size:20px"> code at: https://github.com/kemaeleon/drug_share/blob/master/drugshare/drugshare/templates/cv_bubble_new.py, MIT Licence</h6>
+    <h6 align="center" style="font-size:20px"> code at: https://github.com/kemaeleon/drug_share/blob/master/drugshare/drugshare/templates/test.py, MIT Licence</h6>

@@ -67,7 +67,7 @@ covid_uk = covid_uk.fillna(0)
 
 
 start_date = date(2020, 3,12)
-end_date = date.today()-timedelta(1)
+end_date = date.today()-timedelta(2)
 
 ''' Calculate sum of weekly cases and differences of sums of weekly cases, sds, sdsnorm '''
 (sds, sdsnorm, rsds, delta_sdsnorm,ratio,barplots) = (covid_uk.copy(deep=True) for i in range(6))
@@ -98,6 +98,9 @@ bins = [0,0.00001,1,4,7,14,20,th]
 
 
 for single_date in daterange(start_date, end_date):
+    growing = 0
+    shrinking = 0
+    same = 0
     date = single_date.strftime("%Y-%m-%d")
     show = str(single_date)
     print(show, sum(covid_uk[date]))
@@ -140,12 +143,18 @@ for single_date in daterange(start_date, end_date):
             bubblestring='lightgrey'
             if ratio_pt == np.inf:
                 ratio_pt = 1
+                growing +=1
                 bubblestring = 'blue'
-            if ratio_pt > 1.0:
+            elif ratio_pt > 1.0:
                 bubblestring = 'red'
+                growing += 1
             elif ratio_pt < 1.0:
                 bubblestring = 'green'
+                shrinking += 1
                 ratio_pt = 1.0
+            elif ratio_pt == 1:
+                same += 1
+                bubblestring = 'blue'
             pt = lookup_cog[row['AREA']]    
             folium.Circle(
             location = [pt.coords[0][1], pt.coords[0][0]],
@@ -230,6 +239,7 @@ Select 7-day sum of cases up to the folllowing date:
     m.get_root().html.add_child(folium.Element(top_of_page))
     with open(show + '.html', 'w') as file:
         file.write("{% load static %}")
-    m.save(show + '.html','a')
+    m.save(show + '._dump_html','a')
     with open(show + '.html', 'a') as file:
         file.write(title_html)
+    print("GROWSHRINK", show, growing, same, shrinking, growing+shrinking+same)

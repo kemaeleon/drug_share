@@ -6,4 +6,17 @@
     .leaflet-right .leaflet-control{backround: white !important;}
     .wrapper {min-height: 0px !important}
     map_1139e4a2f18d45e4bd09d71d867f95fb {max-width: 95% !important;}
+    .folium-map{
+max-width: 90% !important;
+margin-right: auto;
+margin-left: auto;
+}
+#legend {
+width: auto !important;
+max-width:90% !important;
+}
+.footer--row .footer--row-inner, .footer--row .footer--row-inner .container .row {
+    font-size: 20px !important;
+}
+
     </style>

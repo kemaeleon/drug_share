@@ -67,7 +67,7 @@ covid_uk = covid_uk.fillna(0)
 
 
 start_date = date(2020, 3,12)
-end_date = date.today()-timedelta(1)
+end_date = date.today()-timedelta(2)
 
 ''' Calculate sum of weekly cases and differences of sums of weekly cases, sds, sdsnorm '''
 (sds, sdsnorm, rsds, delta_sdsnorm,ratio,barplots) = (covid_uk.copy(deep=True) for i in range(6))
