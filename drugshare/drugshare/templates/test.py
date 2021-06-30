@@ -70,14 +70,19 @@ start_date = date(2020, 3,12)
 end_date = date.today()-timedelta(2)
 
 ''' Calculate sum of weekly cases and differences of sums of weekly cases, sds, sdsnorm '''
-(sds, sdsnorm, rsds, delta_sdsnorm,ratio,barplots) = (covid_uk.copy(deep=True) for i in range(6))
+(sds, sdsnorm1, sdsnorm, rsds, delta_sdsnorm,ratio,barplots) = (covid_uk.copy(deep=True) for i in range(7))
 
-"""
 barplots = barplots.set_index('AREA')
-barplots = barplots.drop(columns=['2020','areaName2'])
+barplots = barplots.drop(columns=['2020','areaName2']).rolling(7).mean()
+"""
 for index, row in barplots.iterrows():
     label = str(index).replace(" ","_")
     tmp = barplots.T[index]
+    tmp.drop(index=tmp.index[-1], 
+        axis=0, 
+        inplace=True)
+
+    print(tmp)
     tmp.plot(logy=True,figsize=(3.0,3.0))
     plt.xticks(rotation='45')
     plt.ylabel("Daily cases")
@@ -94,22 +99,24 @@ for single_date in daterange(start_date, end_date):
         back_day = days.strftime("%Y-%m-%d")
         sds[date] += covid_uk[back_day]
     sdsnorm[date]=np.sqrt(sds[date]/(sds['2020']/100000))    
+    sdsnorm1[date]=sds[date]/(sds['2020']/100000)
     th = max(th, sdsnorm[date].max())
-bins = [0,0.00001,1,4,7,14,20,th]
+bins = [0,0.00001,1,5.92,7.08,10,14.14, 17.4,th]
 
 
-barplots2 = sdsnorm.copy(deep = True)
+barplots2 = sdsnorm1.copy(deep = True)
 barplots2 = barplots2.set_index('AREA')
+#barplots2 = barplots2.drop(columns=['2020','areaName2','CODE']).rolling(7).mean()
 barplots2 = barplots2.drop(columns=['2020','areaName2','CODE'])
-for single_date in daterange(start_date, end_date):
-    date = single_date.strftime("%Y-%m-%d")
-    barplots2[date] *= barplots2[date]
 
 for index, row in barplots2.iterrows():
     label = str(index).replace(" ","_")
     tmp = barplots2.T[index]
     tmp2 = tmp.to_frame()
-#    print(tmp2)
+    tmp.drop(tmp.tail(2).index,inplace=True)
+    print(label)
+    print(tmp2)
+    tmp2.to_csv(label + ".csv")
     tmp.plot(logy=True,figsize=(3.0,3.0))
     plt.xticks(rotation='45')
     plt.ylabel("Weekly rates")
